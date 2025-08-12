@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>V-Coder</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="shortcut icon" href="images/favicon/code.ico" type="image/x-icon">
+    <style>
+    #receipt_area {
+        overflow-x: hidden;
+        max-width: 100%;
+    }
+    #receipt_code {
+        overflow-x: auto;
+        text-align: center;
+    }
+</style>
+</head>
+<body>
+    <div id="header"></div>
+    <div class="container d-flex align-items-center" style="justify-content: space-between;">
+        <h2>Code Generator</h2>
+        <button class="btn btn-success mx-1" onclick="downloadReceiptPDF()"><i class="fa-solid fa-download"></i></button>
+    </div>
+    <!-- Main type selection -->
+    <div class="container my-4 d-flex justify-content-center">
+        <label class="" style="cursor: pointer;">
+            <div class="card mx-2">
+                <div class="card-body">
+                    Bar code
+                </div>
+                <div class="card-footer d-flex justify-content-center">
+                    <input class="form-check-input" type="radio" name="code_type" value="barcode" onchange="bar_qr_selection_checker()"> 
+                </div>
+            </div>
+        </label>
+
+        <label class="" style="cursor: pointer;">
+            <div class="card mx-2">
+                <div class="card-body">
+                    QR Code
+                </div>
+                <div class="card-footer d-flex justify-content-center">
+                    <input class="form-check-input" type="radio" name="code_type" value="qrcode" onchange="bar_qr_selection_checker()"> 
+                </div>
+            </div>
+        </label>
+    </div>
+
+    <div class="container my-4 d-flex justify-content-center">
+        <!-- Barcode options -->
+        <div id="barcode_options" style="display:none; margin-top:10px;">
+
+            <label class="" style="cursor: pointer;">
+                <div class="card mx-2">
+                    <div class="card-body">
+                        Barcode -- Texts
+                    </div>
+                    <div class="card-footer d-flex justify-content-center">
+                        <input class="form-check-input" type="radio" name="barcode_mode" value="text"> 
+                    </div>
+                </div>
+            </label>
+
+            <label class="" style="cursor: pointer;">
+                <div class="card mx-2">
+                    <div class="card-body">
+                        Barcode Number
+                    </div>
+                    <div class="card-footer d-flex justify-content-center">
+                        <input class="form-check-input" type="radio" name="barcode_mode" value="number"> 
+                    </div>
+                </div>
+            </label>
+        </div>
+    </div>
+
+
+    <div class="container my-4 d-flex justify-content-center">
+        <!-- QR code options -->
+        <div id="qrcode_options" style="display:none; margin-top:10px;">
+
+            <label class="" style="cursor: pointer;">
+                <div class="card mx-2">
+                    <div class="card-body">
+                        Qr-Code -- Texts
+                    </div>
+                    <div class="card-footer d-flex justify-content-center">
+                        <input class="form-check-input" type="radio" name="qrcode_mode" value="text"> 
+                    </div>
+                </div>
+            </label>
+
+            <label class="" style="cursor: pointer;">
+                <div class="card mx-2">
+                    <div class="card-body">
+                        Qr-Code  Number
+                    </div>
+                    <div class="card-footer d-flex justify-content-center">
+                        <input class="form-check-input" type="radio" name="qrcode_mode" value="number"> 
+                    </div>
+                </div>
+            </label>
+
+            <label class="" style="cursor: pointer;">
+                <div class="card mx-2">
+                    <div class="card-body">
+                        Qr-Code -- URL
+                    </div>
+                    <div class="card-footer d-flex justify-content-center">
+                        <input class="form-check-input" type="radio" name="qrcode_mode" value="URL"> 
+                    </div>
+                </div>
+            </label>
+        </div>
+    </div>
+
+
+    <div class="container my-4 d-flex justify-content-center">
+        <input class="form-control mx-1" type="text" id="data_input" placeholder="Enter your data here" style="width:300px;">
+        <button class="btn btn-primary mx-1" id="generate_btn" onclick="return fn_generate_code()">Generate</button>
+        <!-- <button class="btn btn-success mx-1" onclick="downloadReceiptPDF()"><i class="fa-solid fa-download"></i></button> -->
+        <button class="btn btn-dark mx-1" id="remove_code" onclick="return empty_result()">Reset</button>
+    </div>
+    
+    <!-- Generate button -->
+    <div class="container my-4 d-flex justify-content-center">
+        <div id="result" class="border" style="border:1px dashed #ccc; text-align:center; margin: 10px;">
+
+        </div>
+    </div>
+
+    <!-- Hidden Receipt Layout for PDF -->
+    <div class="container my-4">
+        <div class="row">
+            <div class="col-md-12 d-flex justify-content-center">
+                <h5>Your Buisness Recipt Will Be Look Like This</h5>
+            </div>
+            <div class="col-md-12 d-flex justify-content-center">
+                <div id="receipt_area" class="border" style="padding: 10px; font-family: monospace; font-size: 12px; ">
+                    <div style="text-align:center;">
+                        <strong style="font-size: 15px;;">V-CODER TECH</strong><br>
+                        123 Business Lane, Kolkata<br>
+                        +91 9876543210<br>
+                        www.vcoder.in
+                    </div>
+                    <hr>
+            
+                    <div class="d-flex justify-content-center" style="text-align:center; margin: 10px 0;" id="receipt_code">
+                        <!-- Barcode for PDF goes here -->
+                    </div>
+            
+                    <hr>
+                    <div class="text-center">
+                        <strong>Product:</strong> Demo Product<br>
+                        <strong>Qty:</strong> 1<br>
+                        <strong>Price:</strong> ₹100<br>
+                        <strong>Total:</strong> ₹100
+                    </div>
+            
+                    <hr>
+                    <div style="text-align:center;">
+                        Thank you for your purchase!<br>
+                        Powered by <strong>OM</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+     
+    
+    <!-- <div id="footer"></div> -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
+    <!-- JsBarcode -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsbarcode/3.12.1/JsBarcode.all.min.js" integrity="sha512-fLmJPYDfCIAZ0gpG/iiIzPw113KquhzI1bxG0XhiLYyqm8Ax2lEiq1h1qv2vafH9tLzkjm4HYRWSeKoGFH4xIw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <!-- QRCode.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <!-- html2canvas for capturing -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <!-- jsPDF for generating PDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+
+    
+    <script>
+        $(document).ready(function() {
+            loadHeaderAndSetActive();
+            bar_qr_selection_checker();
+        });
+        
+        async function downloadReceiptPDF() 
+        {
+            const { jsPDF } = window.jspdf;
+            const element = document.getElementById("receipt_area");
+
+            const canvas = await html2canvas(element, {
+                scale: 2,
+                useCORS: true
+            });
+
+            const imgData = canvas.toDataURL("image/png");
+
+            const pageWidth = 58; // mm for receipt roll
+            const pxToMm = px => px * 0.264583;
+            const pdfWidth = pageWidth;
+            const pdfHeight = pxToMm(canvas.height) * (pdfWidth / pxToMm(canvas.width));
+
+            const pdf = new jsPDF({
+                orientation: "portrait",
+                unit: "mm",
+                format: [pdfWidth, pdfHeight]
+            });
+
+            pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+            pdf.save("v-coder-receipt.pdf");
+        }
+
+
+        
+        function bar_qr_selection_checker()
+        {
+            var code_type = $('input[name="code_type"]:checked').val();
+            // alert(code_type);
+            if (code_type === "barcode") 
+            {
+                $('#barcode_options').slideDown(150);
+                $('#qrcode_options').slideUp(150);
+            } 
+            else if (code_type === "qrcode") 
+            {
+                $('#barcode_options').slideUp(150);
+                $('#qrcode_options').slideDown(150);
+            }
+            $('#result').empty(); // Clear previous result
+            $('#receipt_code').empty();
+        }
+
+        function fn_generate_code()
+        {
+            var code_type = $('input[name="code_type"]:checked').val();
+            var input = $('#data_input').val().trim();
+            $('#result').empty();
+            $('#receipt_code').empty();
+
+            if (!code_type) 
+            {
+                alert("Please select a type and enter data!");
+                return false;
+            }
+
+            if(code_type==='barcode')
+            {
+                var barcode_mode = $('input[name="barcode_mode"]:checked').val();
+                if (!barcode_mode) 
+                {
+                    alert("Please select a Barcode mode!");
+                    return false;
+                }
+
+                // Validate input based on mode
+                if (barcode_mode === 'number') 
+                {
+                    if (!/^\d+$/.test(input)) 
+                    {
+                        alert("For Barcode Number mode, please enter digits only!");
+                        return false;
+                    }
+                }
+                // barcode_mode === 'text' → allow anything, no check needed
+
+                $('#result').empty();
+                $('#receipt_code').empty();
+                var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+                $('#result').append(svg);
+                JsBarcode(svg, input, { 
+                    format: "CODE128", 
+                    displayValue: false,
+                    width: 2,
+                    height: 100
+                });
+
+                $('#receipt_code').empty();
+                var svgReceipt = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+                $('#receipt_code').append(svgReceipt);
+                JsBarcode(svgReceipt, input, {
+                    format: "CODE128",
+                    displayValue: false,
+                    width: 1.5,
+                    height: 40,
+                    fontSize: 12,
+                    margin: 5
+                });
+            }
+            else if (code_type === 'qrcode') 
+            {
+                var qrcode_mode = $('input[name="qrcode_mode"]:checked').val();
+                if (!qrcode_mode) 
+                {
+                    alert("Please select a QR Code mode!");
+                    return false;
+                }
+
+                if (qrcode_mode === 'number') 
+                {
+                    if (!/^\d+$/.test(input)) 
+                    {
+                        alert("For QR Code Number mode, please enter digits only!");
+                        return false;
+                    }
+                }
+                else if (qrcode_mode === 'URL') 
+                {
+                    // Basic URL validation
+                    if (!/^https?:\/\/.+/.test(input)) 
+                    {
+                        alert("For QR Code URL mode, please enter a valid URL starting with http:// or https://");
+                        return false;
+                    }
+                }
+
+                var qrDiv = document.createElement('div');
+                $('#result').append(qrDiv);
+                console.log("Generating QR code with input:", input);
+                
+                var qrcode = new QRCode(qrDiv, {
+                    text: input,
+                    width: 256,
+                    height: 256,
+                    colorDark: "#000000",
+                    colorLight: "#ffffff",
+                    correctLevel: QRCode.CorrectLevel.M
+                });
+
+                $('#receipt_code').empty(); // clear if previously barcode
+
+                new QRCode(document.getElementById("receipt_code"), {
+                    text: input,
+                    width: 120,
+                    height: 120,
+                    colorDark: "#000000",
+                    colorLight: "#ffffff",
+                    correctLevel: QRCode.CorrectLevel.M
+                });
+            }
+        }
+        
+
+        function loadHeaderAndSetActive() 
+        {
+            $("#header").load("header.html", function() 
+            {
+                // After header is loaded, determine the current page and set active link
+                var currentPage = window.location.pathname.split("/").pop();
+    
+                if (currentPage === "" || currentPage === "index.html") 
+                {
+                    $("#menu-home").addClass("active");
+                } 
+                else if (currentPage === "about.html") 
+                {
+                    $("#menu-about").addClass("active");
+                } 
+                else if (currentPage === "contact.html") 
+                {
+                    $("#menu-contact").addClass("active");
+                }
+                else if (currentPage === "coder.html") 
+                {
+                    $("#menu-coder").addClass("active");
+                }
+            });
+            // $('#footer').load("footer.html");
+        }
+        function empty_result()
+        {
+            $('#result').empty();
+            $('#receipt_code').empty();
+            var input = $('#data_input').val('');
+            $('#barcode_options').slideUp(150);
+            $('#qrcode_options').slideUp(150);
+            $('input[name="code_type"]').prop('checked', false);
+
+        }
+    </script>
+
+</body>
+</html>
