@@ -9,9 +9,139 @@
 </head>
 <body>
     <div id="header"></div>
+
+    <!-- ! This is done by me -->
     
-    this is a index page 
-    
+    <!-- Custom Styles -->
+    <style>
+        .hero-section {
+            background: #000;
+            color: #fff;
+            padding: 100px 0;
+        }
+        .hero-section h1 span {
+            color: #e63946;
+        }
+        .feature-card {
+            background: #111;
+            border: none;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            color: #fff;
+        }
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 20px rgba(230, 57, 70, 0.4);
+        }
+        .cta-section {
+            background: #e63946;
+            color: white;
+            padding: 80px 0;
+        }
+        .cta-section .btn-dark {
+            border: 2px solid #fff;
+        }
+    </style>
+
+    <!-- AOS Animation CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
+
+    <!-- Hero Section -->
+    <section class="hero-section text-center">
+        <div class="container" data-aos="fade-up">
+            <h1 class="display-4 fw-bold">Welcome to <span>V-Coder</span></h1>
+            <p class="lead mt-3 mb-4">
+                The heart of your information, in a code — Generate QR Codes & Barcodes instantly, securely, and beautifully.
+            </p>
+            <a href="coder.html" class="btn btn-danger btn-lg">
+                <i class="fas fa-qrcode me-2"></i> Start Generating
+            </a>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="py-5" style="background:#1a1a1a;">
+        <div class="container">
+            <div class="row text-center">
+                <div class="col-md-4 mb-4" data-aos="fade-right">
+                    <div class="card feature-card h-100 p-4">
+                        <i class="fas fa-bolt fa-3x text-danger mb-3"></i>
+                        <h5 class="fw-bold">Fast & Easy</h5>
+                        <p class="" style="color: #868686">
+                            Generate your QR or barcode in seconds with just a few clicks. No complicated steps.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4" data-aos="zoom-in">
+                    <div class="card feature-card h-100 p-4">
+                        <i class="fas fa-lock fa-3x text-danger mb-3"></i>
+                        <h5 class="fw-bold">Secure</h5>
+                        <p class="" style="color: #868686">
+                            Your data is safe — generated codes are processed instantly without storing sensitive info.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4" data-aos="fade-left">
+                    <div class="card feature-card h-100 p-4">
+                        <i class="fas fa-cogs fa-3x text-danger mb-3"></i>
+                        <h5 class="fw-bold">Customizable</h5>
+                        <p class="" style="color: #868686">
+                            Create codes tailored to your needs — from products to personal information.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="py-5 text-white" style="background:#000;">
+        <div class="container">
+            <div class="text-center mb-5" data-aos="fade-up">
+                <h2 class="fw-bold text-danger">How V-Coder Works</h2>
+                <p class="" style="color: #868686">It’s as simple as 1, 2, 3</p>
+            </div>
+            <div class="row text-center">
+                <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="100">
+                    <i class="fas fa-edit fa-3x text-danger mb-3"></i>
+                    <h5>Step 1</h5>
+                    <p>Enter the text or data you want to encode.</p>
+                </div>
+                <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="200">
+                    <i class="fas fa-magic fa-3x text-danger mb-3"></i>
+                    <h5>Step 2</h5>
+                    <p>Select QR Code or Barcode and click Generate.</p>
+                </div>
+                <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="300">
+                    <i class="fas fa-download fa-3x text-danger mb-3"></i>
+                    <h5>Step 3</h5>
+                    <p>Download and use your code instantly anywhere.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section text-center">
+        <div class="container" data-aos="zoom-in">
+            <h2 class="fw-bold mb-3">Ready to Generate Your Code?</h2>
+            <p class="mb-4">Click below and start creating barcodes or QR codes in just a few seconds.</p>
+            <a href="coder.html" class="btn btn-dark btn-lg">
+                <i class="fas fa-arrow-right me-2"></i> Go to Generator
+            </a>
+        </div>
+    </section>
+
+    <!-- AOS Script -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script>
+        AOS.init({
+            duration: 1000,
+            once: true
+        });
+    </script>
+
+
+    <!-- ! This Is Done by me  -->
     <div id="footer"></div>
     <script src="sweetalert2.all.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
