@@ -8,20 +8,121 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="shortcut icon" href="images/favicon/code.ico" type="image/x-icon">
     <style>
-    #receipt_area {
-        overflow-x: hidden;
-        max-width: 100%;
-    }
-    #receipt_code {
-        overflow-x: auto;
-        text-align: center;
-    }
-</style>
+        #receipt_area {
+            overflow-x: hidden;
+            max-width: 100%;
+        }
+        #receipt_code {
+            overflow-x: auto;
+            text-align: center;
+        }
+        /* === Red & Black Theme === */
+        body {
+            background-color: #0d0d0d; /* deep black background */
+            color: #f2f2f2;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        h2, h5 {
+            color: #ff1a1a; /* bright red headings */
+            font-weight: bold;
+        }
+
+        .card {
+            background-color: #1a1a1a;
+            border: 1px solid #ff1a1a;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0px 4px 15px rgba(255, 26, 26, 0.6);
+        }
+
+        .card-body {
+            color: #f2f2f2;
+        }
+
+        .card-footer {
+            background-color: #0d0d0d;
+            border-top: 1px solid #ff1a1a;
+        }
+
+        /* Buttons */
+        .btn {
+            border-radius: 25px;
+            transition: all 0.3s ease;
+        }
+        .btn-primary {
+            background-color: #ff1a1a;
+            border: none;
+        }
+        .btn-primary:hover {
+            background-color: #cc0000;
+            transform: scale(1.05);
+        }
+        .btn-dark {
+            background-color: #1a1a1a;
+            border: 1px solid #ff1a1a;
+        }
+        .btn-dark:hover {
+            background-color: #cc0000;
+            color: #fff;
+        }
+        .btn-success {
+            background-color: #28a745;
+            border: none;
+        }
+        .btn-success:hover {
+            transform: scale(1.05);
+            background-color: #218838;
+        }
+
+        /* Inputs */
+        .form-control {
+            background-color: #1a1a1a;
+            color: #f2f2f2;
+            border: 1px solid #ff1a1a;
+        }
+        .form-control:focus {
+            border-color: #ff3333;
+            box-shadow: 0 0 10px rgba(255, 26, 26, 0.6);
+        }
+
+        /* Result Box */
+        #result {
+            background-color: #1a1a1a;
+            border: 2px dashed #ff1a1a !important;
+            padding: 20px;
+            animation: fadeIn 0.5s ease;
+        }
+        #receipt_area {
+            background-color: #1a1a1a;
+            border: 1px solid #ff1a1a;
+            color: #f2f2f2;
+        }
+
+        /* Radio Buttons */
+        .form-check-input {
+            accent-color: #ff1a1a;
+            transform: scale(1.2);
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Smooth page load */
+        body {
+            animation: fadeIn 0.8s ease;
+        }
+    </style>
 </head>
 <body>
     <div id="header"></div>
     <div class="container d-flex align-items-center" style="justify-content: space-between;">
-        <h2>Code Generator</h2>
+        <h2 class="my-4">Code Generator</h2>
         <button class="btn btn-success mx-1" onclick="downloadReceiptPDF()"><i class="fa-solid fa-download"></i></button>
     </div>
     <!-- Main type selection -->
